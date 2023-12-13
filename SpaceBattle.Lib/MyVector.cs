@@ -1,58 +1,60 @@
 namespace SpaceBattle.Lib;
-public class MyVector {
-    private int[] _array;
-  
+public class MyVector
+{
 
-    public MyVector(params int[] array) 
+    private int[] _array;
+
+
+    public MyVector(params int[] array)
     {
         var _size = array.Length;
-            _array = new int[_size];
-            for (var i = 0; i < _size; i++)
-            {
-                _array[i] = array[i];
-            }
+        _array = new int[_size];
+        for (var i = 0; i < _size; i++)
+        {
+            _array[i] = array[i];
+        }
     }
-    
-     public override bool Equals(object? obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
 
-            return obj.GetType() == typeof(MyVector) && Enumerable.SequenceEqual(((MyVector)obj)._array, _array);
+    public override bool Equals(object? obj)
+    {
+        if (obj == null)
+        {
+            return false;
         }
 
-   public int this[int index] => _array[index];
+        return obj.GetType() == typeof(MyVector) && Enumerable.SequenceEqual(((MyVector)obj)._array, _array);
+    }
 
-        public int Size()
+    public int this[int index] => _array[index];
+
+    public int Size()
+    {
+        return _array.Length;
+    }
+
+    public static MyVector operator +(MyVector a, MyVector b)
+    {
+        if (a.Size() != b.Size())
         {
-            return _array.Length;
+            throw new ArgumentException();
         }
-
-        public static MyVector operator +(MyVector a, MyVector b)
+        else
         {
-            if (a.Size() != b.Size())
+            var new_array = new int[a.Size()];
+            for (var i = 0; i < a.Size(); i++)
             {
-                throw new ArgumentException();
+                new_array[i] = a[i] + b[i];
             }
-            else
-            {
-                var new_array = new int[a.Size()];
-                for (var i = 0; i < a.Size(); i++)
-                {
-                    new_array[i] = a[i] + b[i];
-                }
 
-                return new MyVector(new_array);
-            }
+            return new MyVector(new_array);
         }
+    }
 
 
     public override int GetHashCode()
-        {
-            var reduceValues = _array.Aggregate((sum, next) => HashCode.Combine(sum, next));
-            return reduceValues;
-        }
+    {
+        var reduceValues = _array.Aggregate((sum, next) => HashCode.Combine(sum, next));
+        return reduceValues;
+    }
 
 }
