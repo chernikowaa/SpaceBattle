@@ -1,16 +1,16 @@
 namespace SpaceBattle.Lib;
 
-public class MoveableAdapter : IMoveable
+public class MoveableAdapter : IMovable
 {
     private readonly UObject _obj;
     public MoveableAdapter(UObject obj)
     {
         _obj = obj;
     }
-    public  MyVector position
+    public MyVector Position
     {
         get => (MyVector)_obj.properties.Get("Position");
         set => _obj.properties.Set("Position", value);
     }
-    public MyVector instant_velocity => (MyVector)_obj.properties.Get("Velocity");
+    public MyVector Velocity => (MyVector)_obj.properties.Get("Velocity");
 }

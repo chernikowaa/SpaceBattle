@@ -1,14 +1,14 @@
 namespace SpaceBattle.Lib.Tests;
 
-public class StartCommandTest 
+public class StartCommandTest
 {
     private readonly Mock<Order> newOrder = new Mock<Order>();
 
     [Fact]
     public void StartMoveCommandTestz()
     {
-         new InitScopeBasedIoCImplementationCommand().Execute();
-         var spaceship = new Mock<UObject>(new ObjDictionary());
+        new InitScopeBasedIoCImplementationCommand().Execute();
+        var spaceship = new Mock<UObject>(new ObjDictionary());
 
         spaceship.Object.properties.Set("Position", new MyVector(1, 1));
         spaceship.Object.properties.Set("Velocity", new MyVector(0, 0));
@@ -32,7 +32,7 @@ public class StartCommandTest
                 (object[] args) => spaceship.Object
             ).Execute();
 
-        
+
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register",
             "Commands.Move",
                 (object[] args) => new MoveCommand(
@@ -57,15 +57,15 @@ public class StartCommandTest
             new StartCommand(newOrder.Object)
         );
 
-          for (var i = 0; i <= 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             IoC.Resolve<IQueue<ICommand>>("Game.Queue").Take().Execute();
         }
 
-         Assert.Equal(
-            IoC.Resolve<UObject>("Game.Objects.Object1").properties.Get("Position"),
-            new MyVector(10, 10)
-        );
+        Assert.Equal(
+           IoC.Resolve<UObject>("Game.Objects.Object1").properties.Get("Position"),
+           new MyVector(new int[2] { 10, 10 })
+       );
     }
 }
 internal class ActionCommand : ICommand

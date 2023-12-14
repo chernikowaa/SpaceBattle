@@ -1,26 +1,11 @@
 ﻿using Hwdtech;
 namespace SpaceBattle.Lib;
 
-// public interface IMoveable
-// {
-//     public  MyVector position { get; set; }
-//     public MyVector instant_velocity { get; }
-// }
-// public class MoveCommand : ICommand
-// {
-//     private readonly IMoveable moving_object;
-
-//     public MoveCommand(IMoveable moving_object)
-//     {
-//         this.moving_object = moving_object;
-//     }
-
-//     public void Execute()
-//     {
-//         moving_object.position += moving_object.instant_velocity;
-//     }
-// }
-
+public interface IMoveable
+{
+    public MyVector position { get; set; }
+    public MyVector instant_velocity { get; }
+}
 
 public class StartCommand : ICommand
 {
