@@ -13,6 +13,7 @@ public class MoveCommand : ICommand
     {
         this.movable = movable;
     }
+
     public void Execute()
     {
         movable.Position += movable.Velocity;
