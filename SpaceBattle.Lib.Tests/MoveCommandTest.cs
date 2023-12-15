@@ -1,4 +1,4 @@
-namespace SpaceBattle.Lib.Tests;
+﻿namespace SpaceBattle.Lib.Tests;
 
 public class MoveCommandTest
 {
@@ -45,5 +45,4 @@ public class MoveCommandTest
         var test = new MyVector(new int[2] { 1, 1 });
         Assert.True(!test.Equals(null));
     }
-
 }

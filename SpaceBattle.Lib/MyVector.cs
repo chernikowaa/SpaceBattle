@@ -1,4 +1,4 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 public class MyVector
 {
 
@@ -19,8 +19,6 @@ public class MyVector
         return obj.GetType() == typeof(MyVector) && Enumerable.SequenceEqual(((MyVector)obj)._array, _array);
     }
 
-    public int this[int index] => _array[index];
-
     public int Size()
     {
         return _array.Length;
@@ -34,16 +32,14 @@ public class MyVector
         }
         else
         {
-            var new_array = a._array.Select((value,index) => value + b._array[index]).ToArray();
+            var new_array = a._array.Select((value, index) => value + b._array[index]).ToArray();
             return new MyVector(new_array);
         }
     }
-
 
     public override int GetHashCode()
     {
         var reduceValues = _array.Aggregate((sum, next) => HashCode.Combine(sum, next));
         return reduceValues;
     }
-
 }

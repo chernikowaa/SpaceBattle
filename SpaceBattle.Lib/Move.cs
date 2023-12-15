@@ -1,5 +1,4 @@
-﻿using Hwdtech;
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 public interface IMovable
 {
     public MyVector Position { get; set; }

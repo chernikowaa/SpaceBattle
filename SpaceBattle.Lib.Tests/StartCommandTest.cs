@@ -1,4 +1,4 @@
-namespace SpaceBattle.Lib.Tests;
+﻿namespace SpaceBattle.Lib.Tests;
 
 public class StartCommandTest
 {
@@ -31,7 +31,6 @@ public class StartCommandTest
             "Game.Objects.Object1",
                 (object[] args) => spaceship.Object
             ).Execute();
-
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register",
             "Commands.Move",
