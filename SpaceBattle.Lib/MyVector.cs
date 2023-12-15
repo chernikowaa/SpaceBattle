@@ -1,4 +1,4 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 public class MyVector
 {
 
@@ -7,12 +7,7 @@ public class MyVector
 
     public MyVector(params int[] array)
     {
-        var _size = array.Length;
-        _array = new int[_size];
-        for (var i = 0; i < _size; i++)
-        {
-            _array[i] = array[i];
-        }
+        _array.CopyTo(array,array.Length);
     }
 
     public override bool Equals(object? obj)
