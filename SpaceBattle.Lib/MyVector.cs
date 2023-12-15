@@ -6,7 +6,7 @@ public class MyVector
 
     public MyVector(params int[] array)
     {
-        _array.CopyTo(array, array.Length);
+        _array = (int[])array.Clone();
     }
 
     public override bool Equals(object? obj)

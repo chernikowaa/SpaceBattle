@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<coverage line-rate="1" branch-rate="1" version="1.9" timestamp="1702652780" lines-covered="37" lines-valid="37" branches-covered="8" branches-valid="8">
+  <sources>
+    <source>/home/ubuntu/SpaceBattle/SpaceBattle/SpaceBattle.Lib/</source>
+  </sources>
+  <packages>
+    <package name="SpaceBattle.Lib" line-rate="1" branch-rate="1" complexity="14">
+      <classes>
+        <class name="SpaceBattle.Lib.MoveCommand" filename="Move.cs" line-rate="1" branch-rate="1" complexity="2">
+          <methods>
+            <method name="Execute" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="17" hits="4" branch="False" />
+                <line number="18" hits="4" branch="False" />
+                <line number="19" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(SpaceBattle.Lib.IMovable)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="12" hits="4" branch="False" />
+                <line number="13" hits="4" branch="False" />
+                <line number="14" hits="4" branch="False" />
+                <line number="15" hits="4" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="17" hits="4" branch="False" />
+            <line number="18" hits="4" branch="False" />
+            <line number="19" hits="1" branch="False" />
+            <line number="12" hits="4" branch="False" />
+            <line number="13" hits="4" branch="False" />
+            <line number="14" hits="4" branch="False" />
+            <line number="15" hits="4" branch="False" />
+          </lines>
+        </class>
+        <class name="SpaceBattle.Lib.MyVector" filename="MyVector.cs" line-rate="1" branch-rate="1" complexity="12">
+          <methods>
+            <method name="Equals" signature="(System.Object)" line-rate="1" branch-rate="1" complexity="4">
+              <lines>
+                <line number="14" hits="4" branch="False" />
+                <line number="15" hits="4" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="7" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="16" hits="1" branch="False" />
+                <line number="17" hits="1" branch="False" />
+                <line number="20" hits="3" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="35" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="21" hits="4" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Item" signature="(System.Int32)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="23" hits="8" branch="False" />
+              </lines>
+            </method>
+            <method name="Size" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="26" hits="14" branch="False" />
+                <line number="27" hits="14" branch="False" />
+                <line number="28" hits="14" branch="False" />
+              </lines>
+            </method>
+            <method name="op_Addition" signature="(SpaceBattle.Lib.MyVector,SpaceBattle.Lib.MyVector)" line-rate="1" branch-rate="1" complexity="4">
+              <lines>
+                <line number="31" hits="3" branch="False" />
+                <line number="32" hits="3" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="20" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="33" hits="1" branch="False" />
+                <line number="34" hits="1" branch="False" />
+                <line number="37" hits="2" branch="False" />
+                <line number="38" hits="2" branch="False" />
+                <line number="39" hits="12" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="81" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="40" hits="4" branch="False" />
+                <line number="41" hits="4" branch="False" />
+                <line number="42" hits="4" branch="False" />
+                <line number="44" hits="2" branch="False" />
+                <line number="46" hits="2" branch="False" />
+              </lines>
+            </method>
+            <method name="GetHashCode" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="49" hits="4" branch="False" />
+                <line number="50" hits="9" branch="False" />
+                <line number="51" hits="4" branch="False" />
+                <line number="52" hits="4" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(System.Int32[])" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="19" branch="False" />
+                <line number="8" hits="19" branch="False" />
+                <line number="9" hits="19" branch="False" />
+                <line number="11" hits="19" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="14" hits="4" branch="False" />
+            <line number="15" hits="4" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="7" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="16" hits="1" branch="False" />
+            <line number="17" hits="1" branch="False" />
+            <line number="20" hits="3" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="35" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="21" hits="4" branch="False" />
+            <line number="23" hits="8" branch="False" />
+            <line number="26" hits="14" branch="False" />
+            <line number="27" hits="14" branch="False" />
+            <line number="28" hits="14" branch="False" />
+            <line number="31" hits="3" branch="False" />
+            <line number="32" hits="3" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="20" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="33" hits="1" branch="False" />
+            <line number="34" hits="1" branch="False" />
+            <line number="37" hits="2" branch="False" />
+            <line number="38" hits="2" branch="False" />
+            <line number="39" hits="12" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="81" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="40" hits="4" branch="False" />
+            <line number="41" hits="4" branch="False" />
+            <line number="42" hits="4" branch="False" />
+            <line number="44" hits="2" branch="False" />
+            <line number="46" hits="2" branch="False" />
+            <line number="49" hits="4" branch="False" />
+            <line number="50" hits="9" branch="False" />
+            <line number="51" hits="4" branch="False" />
+            <line number="52" hits="4" branch="False" />
+            <line number="7" hits="19" branch="False" />
+            <line number="8" hits="19" branch="False" />
+            <line number="9" hits="19" branch="False" />
+            <line number="11" hits="19" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
