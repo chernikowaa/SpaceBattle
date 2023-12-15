@@ -2,17 +2,11 @@ namespace SpaceBattle.Lib;
 public class MyVector
 {
 
-    private int[] _array;
-
+    private readonly int[] _array;
 
     public MyVector(params int[] array)
     {
-        var _size = array.Length;
-        _array = new int[_size];
-        for (var i = 0; i < _size; i++)
-        {
-            _array[i] = array[i];
-        }
+        _array = (int[])array.Clone();
     }
 
     public override bool Equals(object? obj)
@@ -40,12 +34,7 @@ public class MyVector
         }
         else
         {
-            var new_array = new int[a.Size()];
-            for (var i = 0; i < a.Size(); i++)
-            {
-                new_array[i] = a[i] + b[i];
-            }
-
+            var new_array = a._array.Select((value,index) => value + b._array[index]).ToArray();
             return new MyVector(new_array);
         }
     }
