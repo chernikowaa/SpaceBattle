@@ -2,12 +2,11 @@
 public class MyVector
 {
 
-    private int[] _array;
-
+    private readonly int[] _array;
 
     public MyVector(params int[] array)
     {
-        _array.CopyTo(array,array.Length);
+        _array.CopyTo(array, array.Length);
     }
 
     public override bool Equals(object? obj)
@@ -45,11 +44,9 @@ public class MyVector
         }
     }
 
-
     public override int GetHashCode()
     {
         var reduceValues = _array.Aggregate((sum, next) => HashCode.Combine(sum, next));
         return reduceValues;
     }
-
 }
