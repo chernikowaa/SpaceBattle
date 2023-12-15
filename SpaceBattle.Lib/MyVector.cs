@@ -19,8 +19,6 @@ public class MyVector
         return obj.GetType() == typeof(MyVector) && Enumerable.SequenceEqual(((MyVector)obj)._array, _array);
     }
 
-    public int this[int index] => _array[index];
-
     public int Size()
     {
         return _array.Length;
@@ -34,12 +32,7 @@ public class MyVector
         }
         else
         {
-            var new_array = new int[a.Size()];
-            for (var i = 0; i < a.Size(); i++)
-            {
-                new_array[i] = a[i] + b[i];
-            }
-
+            var new_array = a._array.Select((value, index) => value + b._array[index]).ToArray();
             return new MyVector(new_array);
         }
     }
