@@ -1,5 +1,4 @@
 ﻿namespace SpaceBattle.Lib;
-
 public interface IMovable
 {
     public MyVector Position { get; set; }
@@ -13,6 +12,7 @@ public class MoveCommand : ICommand
     {
         this.movable = movable;
     }
+
     public void Execute()
     {
         movable.Position += movable.Velocity;
