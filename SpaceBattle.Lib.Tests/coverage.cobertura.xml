@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="1" branch-rate="1" version="1.9" timestamp="1703442614" lines-covered="89" lines-valid="89" branches-covered="6" branches-valid="6">
+<coverage line-rate="1" branch-rate="1" version="1.9" timestamp="1703442942" lines-covered="89" lines-valid="89" branches-covered="6" branches-valid="6">
   <sources>
     <source>/home/ubuntu/SpaceBattle/SpaceBattle/SpaceBattle.Lib/</source>
   </sources>
