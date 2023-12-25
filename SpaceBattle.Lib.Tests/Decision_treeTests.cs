@@ -2,13 +2,16 @@
 
 public class DecisionTree
 {
-    public readonly object exceptionAction = () => { throw new Exception("Collision!"); };
-    public Dictionary<object, object> manual_dict = new Dictionary<object, object>();
-    public Action func = () => { };
-    [Fact]
-    public void MakeTree()
+    public DecisionTree()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "Scopes.Current.Set",
+            IoC.Resolve<object>(
+                "Scopes.New",
+                IoC.Resolve<object>("Scopes.Root")
+        )).Execute();
 
         IDictionary<object, object> tree = new Dictionary<object, object>();
 
@@ -29,14 +32,23 @@ public class DecisionTree
                     args[2]);
             }
         ).Execute();
-        new InitScopeBasedIoCImplementationCommand().Execute();
+    }
+
+    public readonly object exceptionAction = () => { throw new Exception("Collision!"); };
+    public Dictionary<object, object> manual_dict = new Dictionary<object, object>();
+    public Action func = () => { };
+    [Fact]
+    public void MakeTree()
+    {
+        _ = new Dictionary<object, object>();
+
         IoC.Resolve<ICommand>(
             "Trees.AddRecord",
             IoC.Resolve<Dictionary<object, object>>("Trees.Collision"),
             new object[] { 1, 1, -1, -1 },
             exceptionAction
         ).Execute();
-        new InitScopeBasedIoCImplementationCommand().Execute();
+
         var branch4 = new Dictionary<object, object>
         {
             { -1, exceptionAction }
@@ -53,7 +65,6 @@ public class DecisionTree
         {
             { 1, branch2 }
         };
-        new InitScopeBasedIoCImplementationCommand().Execute();
         Assert.Equal(manual_dict, IoC.Resolve<Dictionary<object, object>>("Trees.Collision"));
     }
 }
