@@ -29,14 +29,14 @@ public class DecisionTree
                     args[2]);
             }
         ).Execute();
-
+        new InitScopeBasedIoCImplementationCommand().Execute();
         IoC.Resolve<ICommand>(
             "Trees.AddRecord",
             IoC.Resolve<Dictionary<object, object>>("Trees.Collision"),
             new object[] { 1, 1, -1, -1 },
             exceptionAction
         ).Execute();
-
+        new InitScopeBasedIoCImplementationCommand().Execute();
         var branch4 = new Dictionary<object, object>
         {
             { -1, exceptionAction }
@@ -53,7 +53,7 @@ public class DecisionTree
         {
             { 1, branch2 }
         };
-
+        new InitScopeBasedIoCImplementationCommand().Execute();
         Assert.Equal(manual_dict, IoC.Resolve<Dictionary<object, object>>("Trees.Collision"));
     }
 }
