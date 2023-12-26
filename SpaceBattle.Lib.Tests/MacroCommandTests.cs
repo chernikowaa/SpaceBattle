@@ -1,66 +1,92 @@
-﻿namespace SpaceBattle.Lib;
-using Hwdtech;
+﻿using Hwdtech;
 using Hwdtech.Ioc;
 
-public class MacroCommandTests
+namespace SpaceBattle.Lib.Tests;
+
+public class MacroCommandTest
 {
-    public MacroCommandTests()
+    public MacroCommandTest()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
-        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "Scopes.Current.Set",
+            IoC.Resolve<object>(
+                "Scopes.New",
+                IoC.Resolve<object>("Scopes.Root")
+            )
+        ).Execute();
 
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.MacroCommands.MoveWithCheckFuel", (object[] args) =>
-        {
-            return new string[] { "Game.Commands.Move", "Game.Commands.CheckFuel" };
-        }).Execute();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Game.Command.CreateMacro",
+            (object[] args) =>
+            {
+                var commands = (IEnumerable<ICommand>)args[0];
+                return new MacroCommand(commands);
+            }
+        ).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Game.Strategy.MacroCommand",
+            (object[] args) =>
+            {
+                var nameOp = (string)args[0];
+                var uObj = (IUObject)args[1];
+                return new MacroCommandStrategy().Init(nameOp, uObj);
+            }
+        ).Execute();
     }
 
     [Fact]
-    public void InitializeMacroCommand_Positive()
+    public void SuccessfulExampleOfCreatingAndRunningMacroCommand()
     {
+        var nameOperation = "MovementAndRotationOperation";
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Component." + nameOperation,
+            (object[] args) =>
+                new string[] { "Game.Command.CreateMove", "Game.Command.CreateTurn" }
+        ).Execute();
+
+        var obj = new Mock<IUObject>();
+
         var moveCommand = new Mock<ICommand>();
-        moveCommand.Setup(mc => mc.Execute()).Callback(() => { }).Verifiable();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Commands.Move", (object[] args) =>
-        {
-            return moveCommand.Object;
-        }).Execute();
+        moveCommand.Setup(x => x.Execute()).Verifiable();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Game.Command.CreateMove",
+            (object[] args) => moveCommand.Object
+        ).Execute();
 
-        var checkFuelCommand = new Mock<ICommand>();
-        checkFuelCommand.Setup(cfc => cfc.Execute()).Callback(() => { }).Verifiable();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Commands.CheckFuel", (object[] args) =>
-        {
-            return checkFuelCommand.Object;
-        }).Execute();
+        var turnCommand = new Mock<ICommand>();
+        turnCommand.Setup(x => x.Execute()).Verifiable();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Game.Command.CreateTurn",
+            (object[] args) => turnCommand.Object
+        ).Execute();
 
-        var cmds = new CommandsGetter("Game.MacroCommands.MoveWithCheckFuel").GetCommands();
+        var macroCommand = IoC.Resolve<ICommand>("Game.Strategy.MacroCommand", nameOperation, obj.Object);
 
-        var macroCommand = new MacroCommand(cmds);
         macroCommand.Execute();
 
-        moveCommand.Verify(mc => mc.Execute(), Times.Once());
-        checkFuelCommand.Verify(cfc => cfc.Execute(), Times.Once());
+        moveCommand.Verify(x => x.Execute(), Times.Once);
+        turnCommand.Verify(x => x.Execute(), Times.Once);
     }
 
     [Fact]
-    public void OneOfAtomaricCommandsThrowsException()
+    public void TryExecuteCommandsInMacroCommandThrowException()
     {
-        var moveCommand = new Mock<ICommand>();
-        moveCommand.Setup(mc => mc.Execute()).Throws(new NotImplementedException());
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Commands.Move", (object[] args) =>
-        {
-            return moveCommand.Object;
-        }).Execute();
+        var command1 = new Mock<ICommand>();
+        command1.Setup(x => x.Execute()).Throws(new Exception());
 
-        var checkFuelCommand = new Mock<ICommand>();
-        checkFuelCommand.Setup(cfc => cfc.Execute()).Callback(() => { });
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Commands.CheckFuel", (object[] args) =>
-        {
-            return checkFuelCommand.Object;
-        }).Execute();
+        var command2 = new Mock<ICommand>();
+        command2.Setup(x => x.Execute()).Verifiable();
 
-        var cmds = new CommandsGetter("Game.MacroCommands.MoveWithCheckFuel").GetCommands();
-        var macroCommand = new MacroCommand(cmds);
+        var commands = new List<ICommand> { command1.Object, command2.Object };
 
-        Assert.Throws<NotImplementedException>(macroCommand.Execute);
+        Assert.Throws<Exception>(() => new MacroCommand(commands).Execute());
+        command2.Verify(x => x.Execute(), Times.Never);
     }
 }

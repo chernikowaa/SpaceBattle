@@ -1,15 +1,14 @@
 ﻿namespace SpaceBattle.Lib;
+
 public class MacroCommand : ICommand
 {
-    public ICommand[] _cmds;
-
-    public MacroCommand(ICommand[] cmds)
+    private readonly IEnumerable<ICommand> _commands;
+    public MacroCommand(IEnumerable<ICommand> commands)
     {
-        _cmds = cmds;
+        _commands = commands;
     }
-
     public void Execute()
     {
-        _cmds.ToList().ForEach(cmd => cmd.Execute());
+        _commands.ToList().ForEach(command => command.Execute());
     }
 }
