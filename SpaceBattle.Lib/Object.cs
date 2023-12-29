@@ -1,6 +1,6 @@
 ﻿namespace SpaceBattle.Lib;
 
-public interface IUObject
+public interface Object
 {
     public object GetProperty(string name);
     public void SetProperty(string name, object value);

@@ -1,7 +1,4 @@
-﻿using Hwdtech;
-using Hwdtech.Ioc;
-
-namespace SpaceBattle.Lib.Tests;
+﻿namespace SpaceBattle.Lib.Tests;
 
 public class MacroCommandTest
 {
@@ -32,7 +29,7 @@ public class MacroCommandTest
             (object[] args) =>
             {
                 var nameOp = (string)args[0];
-                var uObj = (IUObject)args[1];
+                var uObj = (Object)args[1];
                 return new MacroCommandStrategy().Init(nameOp, uObj);
             }
         ).Execute();
@@ -49,7 +46,7 @@ public class MacroCommandTest
                 new string[] { "Game.Command.CreateMove", "Game.Command.CreateTurn" }
         ).Execute();
 
-        var obj = new Mock<IUObject>();
+        var obj = new Mock<Object>();
 
         var moveCommand = new Mock<ICommand>();
         moveCommand.Setup(x => x.Execute()).Verifiable();
