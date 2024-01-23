@@ -10,9 +10,4 @@ public interface Order
 public class UObject
 {
     public IDict<string, object> properties;
-
-    public UObject(IDict<string, object> properties)
-    {
-        this.properties = properties;
-    }
 }
