@@ -1,80 +1,72 @@
-using Hwdtech;
 using System.Collections.Concurrent;
-using System.Runtime.CompilerServices;
+using Hwdtech;
 
 namespace SpaceBattle.Lib;
 
 public class ServerThread
 {
-    private BlockingCollection<ICommand> _q;
+    private readonly Thread _t;
     private bool _stop = false;
-    private Action _behaviour;
-    private Thread _t;
-    private object _scope;
-    public ServerThread(BlockingCollection<ICommand> queue, object scope)
+    private Action _queue;
+    private readonly object _scope;
+    private Action _endStrategy = () => { };
+
+    public ServerThread(BlockingCollection<ICommand> q, object scope)
     {
-        _q = queue;
         _scope = scope;
-        _behaviour = () =>
+
+        _queue = () =>
         {
-            var cmd = _q.Take();
+            var cmd = q.Take();
             try
             {
                 cmd.Execute();
             }
             catch (Exception e)
             {
-                IoC.Resolve<ICommand>("Exception.Handler", e, cmd).Execute();
+                IoC.Resolve<ICommand>("Exception.Handler", cmd, e).Execute();
             }
         };
 
-        _t = new Thread(
-            () =>
+        _t = new Thread(() =>
+        {
+            IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", _scope).Execute();
+
+            while (!_stop)
             {
-                IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", _scope).Execute();
-                while (!_stop)
-                {
-                    _behaviour();
-                }
+                _queue();
             }
-        );
+
+            _endStrategy();
+        });
     }
+
     public void Start()
     {
         _t.Start();
     }
 
-    public void Stop()
+    internal void Stop()
     {
         _stop = true;
     }
 
-    internal void UpdateBehaviour(Action new_behaviour)
+    internal void UpdateBehaviour(Action newBehavior)
     {
-        _behaviour = new_behaviour;
+        _queue = newBehavior;
+    }
+
+    internal void UpdateEndStrategy(Action newStrategy)
+    {
+        _endStrategy = newStrategy;
     }
     public override bool Equals(object? obj)
     {
-        if (obj.GetType() == typeof(Thread))
-        {
-            return _t == (Thread)obj;
-        }
-
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (GetType() != obj.GetType())
-        {
-            return false;
-        }
-
-        return false;
+        return _t.Equals(obj);
     }
 
     public override int GetHashCode()
     {
-       return _t.GetHashCode();
+        return _t.GetHashCode();
     }
 }

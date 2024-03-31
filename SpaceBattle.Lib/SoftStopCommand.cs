@@ -3,30 +3,49 @@ using Hwdtech;
 
 namespace SpaceBattle.Lib;
 
-public class SoftStop : ICommand
+public class SoftStopCommand : ICommand
 {
-    private readonly BlockingCollection<ICommand> _queue;
-    private readonly ServerThread _thread;
-    public SoftStop(ServerThread thread, BlockingCollection<ICommand> queue)
+    public ServerThread _serverthread;
+    public Action _endAction;
+
+    public SoftStopCommand(ServerThread serverthread, Action endAction)
     {
-        _thread = thread;
-        _queue = queue;
+        _endAction = endAction;
+        _serverthread = serverthread;
     }
 
     public void Execute()
     {
-        _thread.UpdateBehaviour(() =>
+
+
+        if (!_serverthread.Equals(Thread.CurrentThread))
         {
-            if (_queue.TryTake(out var cmd) == true)
+            throw new Exception("WRONG!");
+        }
+
+        var q = IoC.Resolve<BlockingCollection<ICommand>>("Get ServerThread Queue", _serverthread);
+
+        Action softAction = () =>
+        {
+            if (q.Count != 0)
             {
-                _queue.Take().Execute();
+                var cmd = q.Take();
+                try
+                {
+                    cmd.Execute();
+                }
+                catch (Exception e)
+                {
+                    IoC.Resolve<ICommand>("Exception.Handler", cmd, e).Execute();
+                }
             }
             else
             {
-                var id = IoC.Resolve<int>("Get ID", _thread);
-                var stop_cmd = IoC.Resolve<ICommand>("CreateHardStopCommand", id);
-                IoC.Resolve<ICommand>("HardStop", id, stop_cmd).Execute();
+
+                _serverthread.Stop();
             }
-        });
+        };
+        _serverthread.UpdateEndStrategy(_endAction);
+        _serverthread.UpdateBehaviour(softAction);
     }
 }

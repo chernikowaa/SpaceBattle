@@ -2,21 +2,24 @@ namespace SpaceBattle.Lib;
 
 public class HardStopCommand : ICommand
 {
-    private ServerThread _t;
-    public HardStopCommand(ServerThread t)
+    public ServerThread _thread;
+    public Action _endAction;
+
+    public HardStopCommand(ServerThread thread, Action endAction)
     {
-        _t = t;
+        _endAction = endAction;
+        _thread = thread;
     }
     public void Execute()
     {
-        if (_t.Equals(Thread.CurrentThread))
+        if (_thread.Equals(Thread.CurrentThread))
         {
-            _t.Stop();
+            _thread.UpdateEndStrategy(_endAction);
+            _thread.Stop();
         }
         else
         {
             throw new Exception("WRONG!!");
         }
-
     }
 }
