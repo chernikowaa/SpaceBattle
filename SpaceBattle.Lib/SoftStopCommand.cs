@@ -1,31 +1,12 @@
-﻿using System.Collections.Concurrent;
-using Hwdtech;
-
-namespace SpaceBattle.Lib;
-
-public class SoftStopCommand : ICommand
-{
-    public ServerThread _serverthread;
-    public Action _endAction;
-
-    public SoftStopCommand(ServerThread serverthread, Action endAction)
-    {
-        _endAction = endAction;
-        _serverthread = serverthread;
+﻿
+                _serverthread.Stop();
+            }
+        };
+        _serverthread.UpdateEndStrategy(_endAction);
+        _serverthread.UpdateBehaviour(softAction);
     }
-
-    public void Execute()
-    {
-
-
-        if (!_serverthread.Equals(Thread.CurrentThread))
-        {
-            throw new Exception("WRONG!");
-        }
-
-        var q = IoC.Resolve<BlockingCollection<ICommand>>("Get ServerThread Queue", _serverthread);
-
-        Action softAction = () =>
+}
+        Action softAct = () =>
         {
             if (q.Count != 0)
             {
@@ -41,11 +22,10 @@ public class SoftStopCommand : ICommand
             }
             else
             {
-
-                _serverthread.Stop();
+                _st.Stop();
             }
         };
-        _serverthread.UpdateEndStrategy(_endAction);
-        _serverthread.UpdateBehaviour(softAction);
+        _st.UpdateEndStrategy(_endAction);
+        _st.UpdateBehaviour(softAct);
     }
 }
