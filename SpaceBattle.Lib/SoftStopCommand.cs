@@ -1,12 +1,31 @@
-﻿
-                _serverthread.Stop();
-            }
-        };
-        _serverthread.UpdateEndStrategy(_endAction);
-        _serverthread.UpdateBehaviour(softAction);
+﻿using System.Collections.Concurrent;
+using Hwdtech;
+
+namespace SpaceBattle.Lib;
+
+public class SoftStopCommand : ICommand
+{
+    public ServerThread _serverthread;
+    public Action _endAction;
+
+    public SoftStopCommand(ServerThread serverthread, Action endAction)
+    {
+        _endAction = endAction;
+        _serverthread = serverthread;
     }
-}
-        Action softAct = () =>
+
+    public void Execute()
+    {
+
+
+        if (!_serverthread.Equals(Thread.CurrentThread))
+        {
+            throw new Exception("WRONG!");
+        }
+
+        var q = IoC.Resolve<BlockingCollection<ICommand>>("Get ServerThread Queue", _serverthread);
+
+        Action softAction = () =>
         {
             if (q.Count != 0)
             {
@@ -22,10 +41,11 @@
             }
             else
             {
-                _st.Stop();
+
+                _serverthread.Stop();
             }
         };
-        _st.UpdateEndStrategy(_endAction);
-        _st.UpdateBehaviour(softAct);
+        _serverthread.UpdateEndStrategy(_endAction);
+        _serverthread.UpdateBehaviour(softAction);
     }
 }
