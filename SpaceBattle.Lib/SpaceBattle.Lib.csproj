@@ -8,6 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Hwdtech.IoC" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="CoreWCF.Http" Version="1.3.2" />
+    <PackageReference Include="CoreWCF.Primitives" Version="1.3.2" />
+    <PackageReference Include="CoreWCF.WebHttp" Version="1.3.2" />
   </ItemGroup>
 
 </Project>
