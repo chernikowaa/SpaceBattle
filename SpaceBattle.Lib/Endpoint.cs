@@ -44,3 +44,4 @@ namespace SpaceBattle.Lib
     }
 }
 public record Message(string type, string gameId, string gameItemId, IDictionary<string, object> properties);
+
